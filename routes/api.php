@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BloodGroupController;
+use App\Http\Controllers\Api\CampaignController;
+use App\Http\Controllers\Api\BadgeController;
+use App\Http\Controllers\Api\DonorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,4 +25,7 @@ Route::prefix('auth')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 });
 
-Route::apiResource('blood_group', BloodGroupController::class)->only(['index']);
+Route::apiResource('blood_groups', BloodGroupController::class)->only(['index']);
+Route::apiResource('campaigns', CampaignController::class)->only(['index']);
+Route::apiResource('badges', BadgeController::class)->only(['index']);
+Route::apiResource('donors', DonorController::class)->only(['index']);

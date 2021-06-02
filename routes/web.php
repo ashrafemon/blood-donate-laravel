@@ -1,6 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\BloodGroupController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\BadgeController;
+use App\Http\Controllers\Admin\CampaignController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +19,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::redirect('/', '/login', 301);
+
+Route::middleware('guest')->group(function(){
+    Route::get('/login', [AuthController::class, 'loginView'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 });
+
+Route::prefix('admin')->middleware('auth')->group(function(){
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    Route::resource('blood_groups', BloodGroupController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('badges', BadgeController::class);
+    Route::resource('campaigns', CampaignController::class);
+});
+
+
+
